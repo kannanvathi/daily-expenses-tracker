@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Expense - The Ledger</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "outline-variant": "#bec9c8",
+              "on-primary-fixed-variant": "#00504f",
+              "tertiary-fixed-dim": "#ffb693",
+              "on-tertiary": "#ffffff",
+              "secondary": "#486363",
+              "on-surface": "#181c1c",
+              "on-primary": "#ffffff",
+              "surface-container-highest": "#e0e3e2",
+              "secondary-container": "#c7e6e4",
+              "primary-container": "#006766",
+              "on-primary-container": "#94e2e0",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed": "#351000",
+              "background": "#f7faf9",
+              "on-tertiary-container": "#ffc9b1",
+              "on-secondary-container": "#4c6867",
+              "on-error": "#ffffff",
+              "primary": "#004d4c",
+              "inverse-on-surface": "#eef1f0",
+              "surface-container-lowest": "#ffffff",
+              "surface-tint": "#076968",
+              "secondary-fixed": "#cae8e7",
+              "inverse-primary": "#86d4d2",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#6f371a",
+              "surface-dim": "#d7dbda",
+              "surface": "#f7faf9",
+              "surface-bright": "#f7faf9",
+              "outline": "#6f7978",
+              "tertiary-container": "#894c2d",
+              "inverse-surface": "#2d3131",
+              "on-secondary-fixed": "#02201f",
+              "surface-container-low": "#f1f4f3",
+              "surface-variant": "#e0e3e2",
+              "on-secondary-fixed-variant": "#304c4b",
+              "surface-container": "#ebeeed",
+              "tertiary-fixed": "#ffdbcc",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#00201f",
+              "tertiary": "#6c3518",
+              "primary-fixed-dim": "#86d4d2",
+              "on-surface-variant": "#3e4948",
+              "secondary-fixed-dim": "#aecccb",
+              "surface-container-high": "#e6e9e8",
+              "primary-fixed": "#a2f0ee",
+              "on-background": "#181c1c"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen overflow-hidden">
+<!-- Mocked Background Dashboard (Dimmed) -->
+<div class="fixed inset-0 z-0 flex blur-sm opacity-40 pointer-events-none">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full flex flex-col p-6 space-y-8 bg-[#f7faf9] dark:bg-[#181c1c] h-screen w-64 border-r border-[#004d4c]/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#004d4c] text-2xl">account_balance</span>
+<span class="text-xl font-bold text-[#004d4c] dark:text-[#006766] tracking-tighter">The Ledger</span>
+</div>
+<nav class="flex-1 space-y-2">
+<div class="flex items-center gap-4 p-3 bg-gradient-to-br from-[#004d4c] to-[#006766] text-white rounded-md shadow-lg translate-x-1">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-[#181c1c]/70 hover:bg-[#f1f4f3] rounded-md transition-all">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Transactions</span>
+</div>
+<div class="flex items-center gap-4 p-3 text-[#181c1c]/70 hover:bg-[#f1f4f3] rounded-md transition-all">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>Budgets</span>
+</div>
+</nav>
+</aside>
+<main class="ml-64 flex-1 p-12 space-y-12">
+<header class="flex justify-between items-end">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tight text-primary">Monthly Overview</h1>
+<p class="text-on-surface-variant mt-2 font-medium">Your architectural financial digest for October.</p>
+</div>
+<div class="text-right">
+<p class="text-label-sm uppercase tracking-widest text-on-surface-variant">Net Balance</p>
+<p class="text-5xl font-extrabold text-primary tracking-tighter">$12,450.00</p>
+</div>
+</header>
+<div class="grid grid-cols-12 gap-8">
+<div class="col-span-8 bg-surface-container-lowest p-8 rounded-xl shadow-sm h-64"></div>
+<div class="col-span-4 bg-surface-container-low p-8 rounded-xl h-64"></div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center bg-on-surface/20 backdrop-blur-md">
+<!-- Add Expense Modal -->
+<div class="bg-surface-container-lowest w-full max-w-xl rounded-xl shadow-[0_24px_48px_-12px_rgba(24,28,28,0.12)] overflow-hidden">
+<!-- Modal Header -->
+<div class="px-8 pt-8 pb-4 flex justify-between items-center">
+<h2 class="text-2xl font-extrabold text-primary tracking-tight">Add Expense</h2>
+<button class="text-on-surface-variant hover:bg-surface-container rounded-full p-2 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Form Body -->
+<form class="px-8 pb-8 space-y-6">
+<!-- Amount Field (Large Input) -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant tracking-wide">Amount</label>
+<div class="relative group">
+<span class="absolute left-6 top-1/2 -translate-y-1/2 text-3xl font-bold text-primary">$</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-6 pl-12 pr-6 text-4xl font-extrabold text-primary focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-primary/20 appearance-none" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<!-- Grid Layout for Category and Date -->
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant tracking-wide">Category</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-low border-none rounded-xl py-3.5 pl-4 pr-10 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all">
+<option value="groceries">Groceries</option>
+<option value="utilities">Utilities</option>
+<option value="rent">Rent</option>
+<option value="transport">Transport</option>
+<option value="dining">Dining</option>
+<option value="entertainment">Entertainment</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant tracking-wide">Date</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3.5 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" type="date" value="2023-10-27"/>
+</div>
+</div>
+</div>
+<!-- Description Field -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant tracking-wide">Description</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3.5 px-4 text-on-surface focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all placeholder:text-on-surface-variant/50" placeholder="e.g. Weekly organic market run" type="text"/>
+</div>
+<!-- Payment Method Field -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant tracking-wide">Payment Method</label>
+<div class="grid grid-cols-3 gap-3">
+<button class="flex flex-col items-center justify-center gap-2 py-4 bg-surface-container-low border-2 border-transparent rounded-xl hover:bg-surface-container-highest transition-all group active:scale-95" type="button">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">payments</span>
+<span class="text-xs font-bold text-on-surface-variant">Cash</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 py-4 bg-primary-container/10 border-2 border-primary rounded-xl transition-all group active:scale-95" type="button">
+<span class="material-symbols-outlined text-primary" data-weight="fill">credit_card</span>
+<span class="text-xs font-bold text-primary">Credit Card</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 py-4 bg-surface-container-low border-2 border-transparent rounded-xl hover:bg-surface-container-highest transition-all group active:scale-95" type="button">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">account_balance</span>
+<span class="text-xs font-bold text-on-surface-variant">Bank Transfer</span>
+</button>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="pt-6 flex items-center justify-end gap-4">
+<button class="px-6 py-3 text-sm font-bold text-primary hover:bg-surface-container-low rounded-xl transition-colors" type="button">
+                        Cancel
+                    </button>
+<button class="px-10 py-3 bg-gradient-to-br from-primary to-primary-container text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" type="submit">
+                        Save Expense
+                    </button>
+</div>
+</form>
+</div>
+</div>
+</body></html>

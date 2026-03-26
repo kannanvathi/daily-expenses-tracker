@@ -1,0 +1,61 @@
+# Daily Expenses Tracker - Technical Specification
+
+## Tech Stack Recommendation
+- **Frontend:** Vue 3 (Composition API) with Tailwind CSS for rapid, responsive styling.
+- **Backend:** Python with FastAPI or Flask. FastAPI is recommended for its performance and automatic documentation.
+- **Database:** MongoDB (NoSQL) for flexible data structures.
+- **Authentication:** JWT (JSON Web Tokens) for secure user sessions.
+- **State Management:** Pinia (the modern successor to Vuex).
+
+## MongoDB Database Schema
+
+### Users Collection
+```json
+{
+  "_id": "ObjectId",
+  "username": "string",
+  "email": "string",
+  "password_hash": "string",
+  "default_currency": "string (e.g., 'USD')",
+  "monthly_budget_goal": "decimal",
+  "created_at": "ISODate"
+}
+```
+
+### Categories Collection
+```json
+{
+  "_id": "ObjectId",
+  "user_id": "ObjectId (null for global defaults)",
+  "name": "string (e.g., 'Groceries')",
+  "icon": "string (icon identifier)",
+  "color": "string (hex code)",
+  "is_custom": "boolean"
+}
+```
+
+### Expenses Collection
+```json
+{
+  "_id": "ObjectId",
+  "user_id": "ObjectId",
+  "category_id": "ObjectId",
+  "amount": "decimal",
+  "date": "ISODate",
+  "description": "string",
+  "payment_method": "string (e.g., 'Credit Card', 'Cash')",
+  "created_at": "ISODate"
+}
+```
+
+### Budgets Collection (Optional but Recommended)
+```json
+{
+  "_id": "ObjectId",
+  "user_id": "ObjectId",
+  "category_id": "ObjectId",
+  "limit": "decimal",
+  "period": "string (e.g., 'Monthly')",
+  "start_date": "ISODate"
+}
+```
