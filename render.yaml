@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: daily-expenses-tracker-backend
+    env: docker
+    repo: https://github.com/kannanvathi/daily-expenses-tracker
+    branch: main
+    plan: free
+    dockerfilePath: backend/Dockerfile
+    buildCommand: ""
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: MONGO_URI
+        fromDatabase: false
+        value: "${MONGO_URI}"
+    healthCheckPath: /health

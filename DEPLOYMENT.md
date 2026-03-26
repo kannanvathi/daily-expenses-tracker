@@ -28,3 +28,28 @@ Notes:
 - For production, use a managed MongoDB instance (Atlas / DigitalOcean Managed DB) and set `MONGO_URI` accordingly.
 - Optionally front the services with a reverse proxy (NGINX, Traefik) and enable TLS.
 - If you want zero-downtime deploys, consider using a container orchestrator (Docker Swarm / Kubernetes / Render / Fly / AWS ECS).
+ - If you want zero-downtime deploys, consider using a container orchestrator (Docker Swarm / Kubernetes / Render / Fly / AWS ECS).
+
+Platform-specific quick guides
+
+Vercel (frontend):
+
+- Import the repository into Vercel (https://vercel.com/new) and select the `frontend` directory as the project root.
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Add environment variables in the Vercel dashboard if your frontend needs to call the backend (e.g. `VITE_API_URL` set to your backend URL).
+
+Render (backend):
+
+- Use `render.yaml` included in the repo to create the web service for the backend. Render will detect the service defined in `render.yaml` when you connect the repo.
+- The backend service runs using the included `backend/Dockerfile`. Set the `MONGO_URI` environment variable in Render to point to your production MongoDB (Atlas).
+- Health check path: `/health` (implement simple health endpoint if not present).
+
+MongoDB Atlas:
+
+- Create a new cluster on MongoDB Atlas and create a database user.
+- Copy the connection string (URI) and set it in Render as `MONGO_URI` and locally in your `.env` if testing.
+
+Security note:
+
+- Never commit real credentials to the repository. Use platform environment variables or secrets (Vercel/Render/Atlas) for production secrets.
