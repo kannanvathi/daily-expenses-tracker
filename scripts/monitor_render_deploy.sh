@@ -12,7 +12,7 @@ fi
 prev_status=""
 echo "Starting Render deploy monitor for service $SERVICE_ID"
 while true; do
-  now=$(date --iso-8601=seconds)
+  now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   resp=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" "https://api.render.com/v1/services/$SERVICE_ID/deploys") || { echo "$now - error listing deploys"; sleep 30; continue; }
   latest=$(python3 - <<PY
 import sys,json
