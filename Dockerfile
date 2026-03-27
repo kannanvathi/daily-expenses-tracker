@@ -14,9 +14,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/* || true
 
 # Copy backend sources and install
-COPY backend/requirements.txt ./
+COPY . .
 RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
-COPY backend/ .
 
 ENV PORT=8000
 EXPOSE 8000
