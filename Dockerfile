@@ -5,13 +5,13 @@ WORKDIR /app
 # Install build dependencies required by some Python packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-      build-essential \
-      gcc \
-      libssl-dev \
-      libffi-dev \
-      cargo \
-      python3-dev \
-      && rm -rf /var/lib/apt/lists/* || true
+    build-essential \
+    gcc \
+    libssl-dev \
+    libffi-dev \
+    cargo \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/* || true
 
 # Copy backend sources and install
 COPY backend/requirements.txt ./
