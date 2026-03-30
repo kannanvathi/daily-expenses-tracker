@@ -16,8 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# MongoDB connection helper
-DEFAULT_URI = os.getenv("MONGODB_URL", "mongodb+srv://kannanvathi:Athira123@cluster1.qobvrwa.mongodb.net/expenses_db?retryWrites=true&w=majority")
+# MongoDB connection helper: accept either MONGODB_URL or MONGO_URI environment variable
+DEFAULT_URI = os.getenv("MONGODB_URL") or os.getenv("MONGO_URI") or "mongodb+srv://kannanvathi:Athira123@cluster1.qobvrwa.mongodb.net/expenses_db?retryWrites=true&w=majority"
 
 client = MongoClient(DEFAULT_URI, serverSelectionTimeoutMS=5000)
 try:
