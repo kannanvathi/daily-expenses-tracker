@@ -37,11 +37,13 @@ app.add_middleware(
 DEFAULT_URI = os.getenv("MONGODB_URL") or os.getenv("MONGO_URI") or "mongodb+srv://kannanvathi:Athira123@cluster1.qobvrwa.mongodb.net/expenses_db?retryWrites=true&w=majority"
 
 client = MongoClient(DEFAULT_URI, serverSelectionTimeoutMS=5000)
+atlas_connect_error = None
 try:
     client.server_info()  # trigger connect
     print("Connected to Atlas MongoDB")
 except Exception as e:
-    print("Atlas connection failed, fallback to local MongoDB:", e)
+    atlas_connect_error = e
+    print("Atlas connection failed (stored error). Falling back to local MongoDB:", e)
     client = MongoClient("mongodb://localhost:27017", serverSelectionTimeoutMS=5000)
 
 db = client.expenses_db
@@ -89,6 +91,8 @@ def create_expense(expense: dict):
 
 @app.get("/expenses/{user_id}")
 def get_expenses(user_id: str, category_id: Optional[str] = None, date_from: Optional[str] = None, date_to: Optional[str] = None):
+    if atlas_connect_error:
+        raise atlas_connect_error
     query = {"user_id": user_id}
     if category_id:
         query["category_id"] = category_id
