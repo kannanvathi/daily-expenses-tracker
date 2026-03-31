@@ -12,4 +12,7 @@ services:
       - key: MONGO_URI
         fromDatabase: false
         value: "${MONGO_URI}"
+      - key: DEBUG_TRACEBACK
+        fromDatabase: false
+        value: "true"
     healthCheckPath: /health
