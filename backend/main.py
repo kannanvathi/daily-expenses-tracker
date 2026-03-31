@@ -19,7 +19,9 @@ async def all_exception_handler(request: Request, exc: Exception):
     tb = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
     print("Unhandled exception:", exc)
     print(tb)
-    if DEBUG_TRACEBACK:
+    # Allow on-demand tracebacks via env var, query param, or request header.
+    want_trace = DEBUG_TRACEBACK or request.query_params.get("debug") == "1" or request.headers.get("x-debug-trace", "").lower() in ("1", "true", "yes")
+    if want_trace:
         return PlainTextResponse(tb, status_code=500)
     return PlainTextResponse("Internal Server Error", status_code=500)
 
