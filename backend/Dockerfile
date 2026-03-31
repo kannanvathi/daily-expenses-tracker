@@ -7,16 +7,17 @@ WORKDIR /app
 # Dockerfile resilient whether Render builds with context "." or "backend".
 COPY backend/ /app/
 
-# Install build dependencies required by some Python packages
+# Install build dependencies required by some Python packages and CA certs
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    ca-certificates \
     build-essential \
     gcc \
     libssl-dev \
     libffi-dev \
     cargo \
     python3-dev \
-    && rm -rf /var/lib/apt/lists/* || true
+    && update-ca-certificates || true && rm -rf /var/lib/apt/lists/* || true
 
 # Install Python dependencies from the copied requirements.txt
 RUN pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r /app/requirements.txt
