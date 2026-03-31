@@ -1,12 +1,27 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 from bson import ObjectId
 from typing import List, Optional
 from datetime import datetime
 import os
+import traceback
+from fastapi.responses import PlainTextResponse
 
 app = FastAPI()
+
+# When set to true, return full Python tracebacks in HTTP 500 responses.
+DEBUG_TRACEBACK = os.getenv("DEBUG_TRACEBACK", "false").lower() in ("1", "true", "yes")
+
+
+@app.exception_handler(Exception)
+async def all_exception_handler(request: Request, exc: Exception):
+    tb = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    print("Unhandled exception:", exc)
+    print(tb)
+    if DEBUG_TRACEBACK:
+        return PlainTextResponse(tb, status_code=500)
+    return PlainTextResponse("Internal Server Error", status_code=500)
 
 app.add_middleware(
     CORSMiddleware,
