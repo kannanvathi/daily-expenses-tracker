@@ -92,11 +92,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { useCategoriesStore } from '../stores/categories'
 import { useExpensesStore } from '../stores/expenses'
+import { useAuthStore } from '../stores/auth'
 const emit = defineEmits(['close', 'expense-added'])
 
 // Reactive state
 const expense = ref({
-  user_id: 'default-user',
+  user_id: '',
   amount: '',
   category: '',
   date: new Date().toISOString().split('T')[0],
@@ -155,8 +156,9 @@ const closeModal = () => {
 }
 
 const resetForm = () => {
+  const auth = useAuthStore()
   expense.value = {
-    user_id: 'default-user',
+    user_id: auth.user && auth.user._id ? auth.user._id : '',
     amount: '',
     category: '',
     date: new Date().toISOString().split('T')[0],
@@ -167,6 +169,10 @@ const resetForm = () => {
 
 // Lifecycle hooks
 onMounted(() => {
+  const auth = useAuthStore()
+  if (auth && auth.user && auth.user._id) {
+    expense.value.user_id = auth.user._id
+  }
   loadCategories()
 })
 </script>

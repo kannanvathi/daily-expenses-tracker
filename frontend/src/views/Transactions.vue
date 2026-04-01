@@ -122,6 +122,8 @@ import { ref, computed, onMounted } from 'vue'
 import AddExpenseModal from '../components/AddExpenseModal.vue'
 import axios from 'axios'
 import { API_BASE_URL } from '../utils/env.js'
+import { useAuthStore } from '../stores/auth'
+import { useRouter } from 'vue-router'
 
 // Local reactive store data to avoid calling Pinia at module import
 const expenses = ref([])
@@ -208,7 +210,13 @@ const deleteExpense = async (id) => {
 
 const refreshData = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/expenses/default-user`)
+    const auth = useAuthStore()
+    if (!auth || !auth.user || !auth.user._id) {
+      const router = useRouter()
+      router.push({ name: 'Login' })
+      return
+    }
+    const response = await axios.get(`${API_BASE_URL}/expenses/${auth.user._id}`)
     expenses.value = response.data || []
   } catch (error) {
     console.error('Error refreshing expenses:', error)
@@ -218,10 +226,8 @@ const refreshData = async () => {
 // Lifecycle hooks
 onMounted(async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/expenses/default-user`)
-    expenses.value = response.data || []
+    await refreshData()
   } catch (error) {
-    console.error('Error loading expenses:', error)
     expenses.value = []
   }
 })

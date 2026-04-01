@@ -143,6 +143,8 @@
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { API_BASE_URL } from '../utils/env.js';
+import { useAuthStore } from '../stores/auth'
+import { useRouter } from 'vue-router'
 
 const expenses = ref([]);
 const budgetCategories = ref([
@@ -214,7 +216,13 @@ const topCategory = computed(() => (categoryStats.value.length === 0 ? '' : cate
 
 async function loadReports() {
   try {
-    const response = await axios.get(`${API_BASE_URL}/expenses/default-user`);
+    const auth = useAuthStore()
+    if (!auth || !auth.user || !auth.user._id) {
+      const router = useRouter()
+      router.push({ name: 'Login' })
+      return
+    }
+    const response = await axios.get(`${API_BASE_URL}/expenses/${auth.user._id}`)
     expenses.value = response.data;
 
     // Update budget tracking with actual data

@@ -153,6 +153,8 @@
 import { ref, reactive, watch, onMounted } from 'vue';
 import axios from 'axios';
 import { API_BASE_URL } from '../utils/env.js';
+import { useAuthStore } from '../stores/auth'
+import { useRouter } from 'vue-router'
 
 const settings = reactive({
   currency: 'INR',
@@ -205,7 +207,13 @@ async function saveSettings() {
 
 function exportData() {
   try {
-    axios.get(`${API_BASE_URL}/expenses/default-user`).then(res => {
+    const auth = useAuthStore()
+    if (!auth || !auth.user || !auth.user._id) {
+      const router = useRouter()
+      router.push({ name: 'Login' })
+      return
+    }
+    axios.get(`${API_BASE_URL}/expenses/${auth.user._id}`).then(res => {
       const expenses = res.data;
       let csv = 'Date,Category,Description,Amount,Payment Method\n';
 
@@ -229,7 +237,13 @@ function exportData() {
 
 function exportJSON() {
   try {
-    axios.get(`${API_BASE_URL}/expenses/default-user`).then(res => {
+    const auth = useAuthStore()
+    if (!auth || !auth.user || !auth.user._id) {
+      const router = useRouter()
+      router.push({ name: 'Login' })
+      return
+    }
+    axios.get(`${API_BASE_URL}/expenses/${auth.user._id}`).then(res => {
       const expenses = res.data;
       const dataToExport = {
         settings: { ...settings },

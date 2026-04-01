@@ -123,6 +123,8 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import AddExpenseModal from '../components/AddExpenseModal.vue'
 import axios from 'axios'
 import { API_BASE_URL } from '../utils/env.js'
+import { useAuthStore } from '../stores/auth.js'
+import { useRouter } from 'vue-router'
 
 // Pinia store will be accessed inside lifecycle/hooks to avoid early import
 
@@ -144,7 +146,14 @@ const progressPercent = computed(() => {
 // Methods
 const loadDashboardData = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/expenses/default-user`)
+    // use authenticated user's id instead of a hardcoded default
+    const auth = useAuthStore()
+    if (!auth || !auth.token) {
+      // not authenticated
+      throw { status: 401 }
+    }
+    const userId = auth.user?._id
+    const response = await axios.get(`${API_BASE_URL}/expenses/${userId}`)
     const expenses = response.data || []
 
     // Calculate total spent
@@ -158,6 +167,12 @@ const loadDashboardData = async () => {
     calculateLast7Days(expenses)
   } catch (error) {
     console.error('Error loading dashboard data:', error)
+    // if unauthorized, navigate to login
+    if (error && (error.status === 401 || (error.response && error.response.status === 401))) {
+      const router = useRouter()
+      router.push({ name: 'Login' })
+      return
+    }
     recentExpenses.value = []
   }
 }

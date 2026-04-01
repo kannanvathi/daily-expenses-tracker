@@ -1,9 +1,24 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { useAuthStore } from './stores/auth'
+
+const auth = useAuthStore()
+const router = useRouter()
+
+function doLogout() {
+  auth.logout()
+  router.push('/login')
+}
 </script>
 
 <template>
   <div id="app">
+    <!-- Global logout/toast -->
+    <div v-if="auth.logoutReason" class="toast toast-warning">
+      <span class="material-symbols-outlined">warning</span>
+      <span>{{ auth.logoutReason }}</span>
+      <button class="toast-close" @click="auth.clearLogoutReason()">✕</button>
+    </div>
     <!-- Sticky Navigation Bar -->
     <header class="app-header">
       <nav class="app-nav">
@@ -38,6 +53,17 @@ import { RouterLink, RouterView } from 'vue-router'
             </RouterLink>
           </li>
         </ul>
+
+        <div class="auth-actions">
+          <template v-if="!auth.isAuthenticated">
+            <RouterLink to="/login" class="nav-link">Login</RouterLink>
+            <RouterLink to="/signup" class="nav-link">Sign up</RouterLink>
+          </template>
+          <template v-else>
+            <span class="user-badge">{{ auth.user ? auth.user._id.slice(0,8) : 'me' }}</span>
+            <button class="btn-logout" @click="doLogout">Logout</button>
+          </template>
+        </div>
       </nav>
     </header>
 
